@@ -55,10 +55,10 @@ export default function Formvalidator(e) {
                 return ""
             }
         case "work":
-            if (value && value.length) {
+            if (value && value.length === 0) {
                 return name + " Felid is Mandatory"
             }
-            else if (value.length < 4) {
+            else if (value.length <= 4) {
                 return "Length must greater than 4 character"
             }
             else {
@@ -173,7 +173,7 @@ export default function Formvalidator(e) {
             else if (value.length !== 10) {
                 return name + " lenght must be 10 Numbers "
             }
-            else if (value[0] === 1 || value[0] === 0 || value[0] === 2 || value[0] === 3 || value[0] == 4 || value[0] == 5) {
+            else if (value[0] === 1 || value[0] === 0 || value[0] === 2 || value[0] === 3 || value[0] === 4 || value[0] === 5) {
                 return "Mobile number not start with 0,1,2,3,4,5"
             }
             else {

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import Filevalidator from "../../../Validator/Filevalidator"
 import Formvalidator from '../../../Validator/Formvalidator';
-import { Createteam,Getteam } from "../../../Redux/ActionCreator/Teamactioncreator"
+import { Createteam, Getteam } from "../../../Redux/ActionCreator/Teamactioncreator"
 
 export default function Teamcreate() {
   let dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function Teamcreate() {
 
   function inputdata(e) {
     let name = e.target.name;
-    let value = e.target.files && e.target.files.length ? "team/" + e.target.files[0].name : e.target.value;
+    let value = e.target.files && e.target.files.length[0] ? e.target.files : e.target.value;
 
     let error = e.target.files ? Filevalidator(e) : Formvalidator(e)
 
@@ -64,10 +64,17 @@ export default function Teamcreate() {
         })
         return
       }
-        dispatch(Createteam({ ...data }))
-        navigate("/admin/team");  
+      const formData = new FormData();
+
+      Object.keys(data).forEach((key) => {
+        formData.append(key, data[key]);
+      });
+
+      dispatch(Createteam(formData))
+      navigate("/admin/team");
     }
   }
+
   useEffect(() => {
     dispatch(Getteam());
   }, [teamStatedata])

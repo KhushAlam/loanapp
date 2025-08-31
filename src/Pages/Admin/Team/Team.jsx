@@ -10,6 +10,7 @@ export default function Team() {
     let dispatch = useDispatch()
     let teamStatedata = useSelector(state => state.teamStatedata)
     let [data, setdata] = useState([]);
+    console.log(data)
 
     function deletetestimonial(id) {
         if (window.confirm("Do you want to delete")) {
@@ -58,7 +59,7 @@ export default function Team() {
                                                 <td>{item.name}</td>
                                                 <td>{item.work}</td>
                                                 <td><Link to={`${process.env.REACT_APP_BACKEND_SERVER}${item.pic}`} target='_blank'>
-                                                    <img src={`${process.env.REACT_APP_BACKEND_SERVER}${item.pic}`} height={80} width={80} />
+                                                    <img src={`${item.pic}`} height={80} width={80} />
                                                 </Link></td>
                                                 <td><Link to={`/admin/team/update/${item.id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
                                                 <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item.id) }}><i className='fa fa-trash text-light'></i></button></td>

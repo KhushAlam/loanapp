@@ -2,10 +2,7 @@ import React from "react"
 export async function createRecord(collection, payload) {
     let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}`, {
         method: "POST",
-        headers: {
-            "content-type": "application/json"
-        },
-        body: JSON.stringify({ ...payload })
+        body:payload
     })
     return (await responce).json()
 }
