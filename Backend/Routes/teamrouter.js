@@ -7,26 +7,26 @@ const teamRouter = express.Router();
 
 // multer config
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // uploads folder me save hoga
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); 
-    // unique name (timestamp + extension)
-  }
+    destination: (req, file, cb) => {
+        cb(null, "uploads/"); // uploads folder me save hoga
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+        // unique name (timestamp + extension)
+    }
 });
 
 // Multer middleware
 const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-    if (!allowedTypes.includes(file.mimetype)) {
-      return cb(new Error("Only JPG and PNG files are allowed"));
-    }
-    cb(null, true);
-  },
-  limits: { fileSize: 2 * 1024 * 1024 } // max 2 MB
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+        if (!allowedTypes.includes(file.mimetype)) {
+            return cb(new Error("Only JPG and PNG files are allowed"));
+        }
+        cb(null, true);
+    },
+    limits: { fileSize: 2 * 1024 * 1024 } // max 2 MB
 });
 
 teamRouter.get("/get", async (req, res) => {
@@ -59,10 +59,9 @@ teamRouter.post("/create", upload.single("pic"), async (req, res) => {
         }
 
         const newTeam = new Team({
-            ...req.body, 
-            pic:req.file.filename
+            ...req.body,
+            pic: req.file.filename
         });
-        console.log(newTeam);
 
         await newTeam.save();
         return res.status(201).json({ message: "Team Member added successfully" });
@@ -73,16 +72,13 @@ teamRouter.post("/create", upload.single("pic"), async (req, res) => {
     }
 });
 
-teamRouter.patch("/update/:id", upload.single("pic"), async (req, res) => {
+teamRouter.put("/update/:id", upload.single("pic"), async (req, res) => {
     try {
         let id = req.params.id;
         let updatedData = { ...req.body };
 
         if (req.file) {
-            updatedData.pic = {
-                data: req.file.buffer,
-                contentType: req.file.mimetype
-            };
+            updatedData.pic = req.body.filename;
         }
 
         const updated = await Team.findByIdAndUpdate(id, updatedData, {

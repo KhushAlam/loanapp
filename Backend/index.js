@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 import db from "./Database/db.js";
 import serviceRouter from './Routes/serviceroute.js';
 import teamRouter from "./Routes/teamrouter.js";
+import tesitimonialRouter from "./Routes/testimonialroute.js";
+import contactRouter from "./Routes/contactroute.js";
+import userRouter from "./Routes/useroute.js";
 import cros from "cors";
 dotenv.config()
 
@@ -21,6 +24,9 @@ db();
 
 app.use('/service', serviceRouter);
 app.use('/team', teamRouter);
+app.use("/testimonial", tesitimonialRouter);
+app.use("/contact", contactRouter);
+app.use("/user", userRouter);
 
 
 app.listen(port, (err) => {

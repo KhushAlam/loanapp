@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { type } from "os";
 
 const teamSchema = mongoose.Schema({
     name: {
@@ -16,7 +15,7 @@ const teamSchema = mongoose.Schema({
         required: true,
 
     },
-    description: {
+    discription: {
         type: String,
         required: true,
     },
