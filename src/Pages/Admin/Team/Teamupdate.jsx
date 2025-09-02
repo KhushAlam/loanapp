@@ -30,7 +30,7 @@ export default function Teamupdate() {
 
   function inputdata(e) {
     let name = e.target.name;
-    let value = e.target.files && e.target.files.length ? "team/" + e.target.files[0].name : e.target.value;
+    let value = e.target.files && e.target.files.length ? e.target.files[0] : e.target.value;
 
     let error = e.target.files ? Filevalidator(e) : Formvalidator(e)
 
@@ -51,17 +51,28 @@ export default function Teamupdate() {
   function postdata(e) {
     e.preventDefault();
     let error = Object.values(errormessage).find(x => x !== "");
+
     if (error) {
       setshow(true);
     } else {
-      dispatch(Updateteam({ ...data }))
+
+      const formData = new FormData();
+      console.log(data._id); // id print ho raha hai
+      formData.append("_id", data._id);
+      formData.append("name", data.name || "");
+      formData.append("work", data.work || "");
+      formData.append("pic", data.pic || "");   // file ya string dono ho sakta hai
+      formData.append("active", data.active || "");
+      formData.append("discription", data.discription || "")
+
+      dispatch(Updateteam(formData))
       navigate("/admin/team");
     }
   }
   useEffect(() => {
     dispatch(Getteam());
     if (teamStatedata.length) {
-      setdata(teamStatedata.find(x => x.id === id));
+      setdata(teamStatedata.find(x => x._id === id));
     }
   }, [teamStatedata.length, id])
   return (

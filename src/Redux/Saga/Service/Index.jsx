@@ -1,13 +1,13 @@
 import React from "react"
 export async function createRecord(collection, payload) {
-    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}`, {
+    let responce = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}`, {
         method: "POST",
-        body:payload
+        body: payload
     })
     return (await responce).json()
 }
 export async function createmultipleRecord(collection, payload) {
-    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}`, {
+    let responce = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}`, {
         method: "POST",
         headers: {
         },
@@ -25,18 +25,15 @@ export async function getRecord(collection) {
     return (await responce).json()
 }
 export async function updateRecord(collection, payload) {
-    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/${payload.id}`, {
+    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/update/${payload._id}`, {
         method: "PUT",
-        headers: {
-            "content-type": "application/json"
-        },
-        body: JSON.stringify({ ...payload })
+        body: payload
     })
     return (await responce).json()
 }
 
 export async function updatemultipleRecord(collection, payload) {
-    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/${payload.id}`, {
+    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/update/${payload.id}`, {
         method: "PUT",
         headers: {
         },
@@ -45,13 +42,9 @@ export async function updatemultipleRecord(collection, payload) {
     return (await responce).json()
 }
 
-export async function deleteRecord(collection, payload) {
-    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/${payload.id}`, {
+export async function deleteRecord(collection, id) {
+    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/delete/${id}`, {
         method: "DELETE",
-        headers: {
-            "content-type": "application/json"
-        },
-        body: JSON.stringify({ ...payload })
     })
     return (await responce).json()
 }

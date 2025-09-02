@@ -16,14 +16,15 @@ function* getSaga(action) {
     yield put({ type: GET_TEAM_RED, payload: responce })
 }
 function* updateSaga(action) {
-    let responce = yield updateRecord("team", action.payload)
-    yield put({ type: UPDATE_TEAM_RED, payload: action.payload })
+    console.log("UpdateSaga Payload:", action.payload);
+    let responce = yield call(updateRecord, "team", action.payload,)
+    yield put({ type: UPDATE_TEAM_RED, payload: responce })
 
     // let responce = yield updatemultipleRecord("team", action.payload)
     // yield put({ type: UPDATE_TEAM_RED, payload: action.payload })
 }
 function* deleteSaga(action) {
-    let responce = yield deleteRecord("team", action.payload)
+    let responce = yield call(deleteRecord, "team", action.payload._id);
     yield put({ type: DELETE_TEAM_RED, payload: action.payload })
 }
 export default function* teamSagas() {

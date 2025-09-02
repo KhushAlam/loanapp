@@ -29,7 +29,7 @@ export default function Teamcreate() {
 
   function inputdata(e) {
     let name = e.target.name;
-    let value = e.target.files && e.target.files.length[0] ? e.target.files : e.target.value;
+    let value = e.target.files && e.target.files.length ? e.target.files[0] : e.target.value;
 
     let error = e.target.files ? Filevalidator(e) : Formvalidator(e)
 

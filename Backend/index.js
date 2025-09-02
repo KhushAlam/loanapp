@@ -6,6 +6,7 @@ import teamRouter from "./Routes/teamrouter.js";
 import tesitimonialRouter from "./Routes/testimonialroute.js";
 import contactRouter from "./Routes/contactroute.js";
 import userRouter from "./Routes/useroute.js";
+import loanRouter from "./Routes/LoanRouter.js";
 import cros from "cors";
 dotenv.config()
 
@@ -27,6 +28,7 @@ app.use('/team', teamRouter);
 app.use("/testimonial", tesitimonialRouter);
 app.use("/contact", contactRouter);
 app.use("/user", userRouter);
+app.use("/loan",loanRouter);
 
 
 app.listen(port, (err) => {

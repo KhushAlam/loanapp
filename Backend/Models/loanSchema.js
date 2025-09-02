@@ -1,5 +1,25 @@
 import mongoose from "mongoose";
 
+const installmentSchema = new mongoose.Schema({
+    month: {
+        type: Number,
+        required: true,
+        min: 0
+    },
+    duedate: {
+        type: Date,
+        required: true
+    },
+    paid: {
+        type: Boolean,
+        default: false
+    },
+    paidat: {
+        type: Date,
+        default: null
+    }
+});
+
 const loanSchema = new mongoose.Schema({
     loantype: {
         type: String,
@@ -15,25 +35,25 @@ const loanSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Duration is required"],
         min: [1, "Duration must be at least 1 month"],
-        max:[72,"Duration must be less then equl to 72"]
+        max: [72, "Duration must be less then equl to 72"]
     },
     name: {
         type: String,
         required: [true, "Name is required"],
-         minlength: [3, "Name must be at least 3 characters long"],
+        minlength: [3, "Name must be at least 3 characters long"],
         maxlength: [50, "Name must be less than 50 characters"],
         trim: true
     },
     fname: {
         type: String,
         required: [true, "Father's name is required"],
-         minlength: [3, "Name must be at least 3 characters long"],
+        minlength: [3, "Name must be at least 3 characters long"],
         maxlength: [50, "Name must be less than 50 characters"],
         trim: true
     },
     mname: {
         type: String,
-         minlength: [3, "Name must be at least 3 characters long"],
+        minlength: [3, "Name must be at least 3 characters long"],
         maxlength: [50, "Name must be less than 50 characters"],
         trim: true
     },
@@ -75,7 +95,7 @@ const loanSchema = new mongoose.Schema({
     workingtype: {
         type: String,
         required: [true, "Working type is required"],
-        enum:["Student","Self Employed","Businessman"],
+        enum: ["Student", "Self Employed", "Businessman"],
         trim: true
     },
     income: {
@@ -86,7 +106,7 @@ const loanSchema = new mongoose.Schema({
     address: {
         type: String,
         required: [true, "Address is required"],
-         minlength: [5, "Name must be at least 5 words long"],
+        minlength: [5, "Name must be at least 5 words long"],
         maxlength: [60, "Name must be less than 60 characters"],
         trim: true
     },
@@ -113,12 +133,13 @@ const loanSchema = new mongoose.Schema({
     status: {
         type: String,
         default: "Submitted",
-        enum: ["Submitted", "Approved", "Rejected","Paid"]
+        enum: ["Submitted", "Approved", "Rejected", "Paid"]
     },
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+    installment: [installmentSchema]
 }, {
     timestamps: true
 });
