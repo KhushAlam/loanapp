@@ -49,9 +49,9 @@ serviceRouter.post("/create", upload.none(), async (req, res) => {
 serviceRouter.put("/update/:id", upload.none(), async (req, res) => {
     try {
         let id = req.params.id.trim();
-        const updateddata = req.body;
+        const updateddata = {...req.body};
 
-        let data = await Service.findById(id);
+        let data = await Services.findById(id);
 
         if (!data) return res.status(400).json({ message: "Data not found" });
 

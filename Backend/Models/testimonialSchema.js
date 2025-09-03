@@ -6,7 +6,7 @@ const testimonialSchema = mongoose.Schema({
         required: [true, "Name is required"],
         minlength: [3, "Name must be at least 3 characters"],
         maxlength: [30, "Name cannot exceed 30 characters"],
-        trim: true
+        trim: true,
     },
     city: {
         type: String,
@@ -25,7 +25,6 @@ const testimonialSchema = mongoose.Schema({
         type: String,
         required: [true, "Description is required"],
         minlength: [10, "Description must be at least 10 characters"],
-        maxlength: [50, "Description cannot exceed 50 characters"],
         trim: true
     }
 }, { timestamps: true });

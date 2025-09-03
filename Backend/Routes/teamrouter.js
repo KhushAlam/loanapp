@@ -82,7 +82,11 @@ teamRouter.put("/update/:id", upload.single("pic"), async (req, res) => {
             return res.status(404).json({ message: "Data not Found" });
         }
 
-        updatedData.pic = req.file ? req.file.path : existdata.pic;
+        if (req.file) {
+            updatedData.pic = req.file.filename
+        } else {
+            updatedData = existdata.pic
+        }
 
         const updated = await Team.findByIdAndUpdate(id, updatedData, {
             new: true,

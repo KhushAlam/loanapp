@@ -15,6 +15,7 @@ const app = express();
 const port = process.env.BACKEND_PORT;
 
 // app.use(morgan("combined"));
+app.use("/testimonial", express.static("testimonial"));
 app.use("/uploads", express.static("uploads"));
 app.use(cros())
 app.use(express.json())
@@ -28,7 +29,7 @@ app.use('/team', teamRouter);
 app.use("/testimonial", tesitimonialRouter);
 app.use("/contact", contactRouter);
 app.use("/user", userRouter);
-app.use("/loan",loanRouter);
+app.use("/loan", loanRouter);
 
 
 app.listen(port, (err) => {

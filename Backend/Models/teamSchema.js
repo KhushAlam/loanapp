@@ -17,7 +17,6 @@ const teamSchema = mongoose.Schema({
     },
     discription: {
         type: String,
-        required: true,
     },
     pic: {
         type:String,
