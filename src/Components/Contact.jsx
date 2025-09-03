@@ -50,12 +50,17 @@ export default function Contact() {
                 seterrormessage((old) => {
                     return {
                         ...old,
-                        "name": "Same user Message Recently please try another time... "
+                        "name": "Same user Already Message  please try another time... "
                     }
                 })
                 return
             }
-            dispatch(Createcontact({ ...data }))
+
+            const Fromdata = new FormData()
+            Object.keys(data).forEach(key=>{
+                Fromdata.append(key,data[key])
+            })
+            dispatch(Createcontact(Fromdata));
             alert("Your message send sucessfully... we contact you as soon as possible")
         }
     }

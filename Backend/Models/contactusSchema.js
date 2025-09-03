@@ -20,14 +20,12 @@ const contactSchema = new mongoose.Schema({
         type: String,
         required: [true, "Subject is required"],
         trim: true,
-        maxlength: [100, "Subject must be less than 100 characters"]
     },
     message: {
         type: String,
         required: [true, "Message is required"],
         trim: true,
         minlength: [10, "Message must be at least 10 characters long"],
-        maxlength: [50, "Message must be less than 50 characters"]
     },
 }, {
     timestamps: true 

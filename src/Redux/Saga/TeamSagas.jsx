@@ -16,7 +16,6 @@ function* getSaga(action) {
     yield put({ type: GET_TEAM_RED, payload: responce })
 }
 function* updateSaga(action) {
-    console.log("UpdateSaga Payload:", action.payload);
     let responce = yield call(updateRecord, "team", action.payload,)
     yield put({ type: UPDATE_TEAM_RED, payload: responce })
 

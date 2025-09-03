@@ -16,20 +16,20 @@ export default function Testimonialcreate() {
     city: "",
     pic: "",
     active: "",
-    discription: ""
+    description: ""
   })
   let [errormessage, seterrormessage] = useState({
     name: "Feild is Mandatory",
     city: "Feild is Mandatory",
     pic: "Feild is Mandatory",
     active: "Feild is Mandatory",
-    discription: "Feild is Mandatory"
+    description: "Feild is Mandatory"
   })
   let [show, setshow] = useState(false)
 
   function inputdata(e) {
     let name = e.target.name;
-    let value = e.target.files && e.target.files.length ? "testimonial/" + e.target.files[0].name : e.target.value;
+    let value = e.target.files && e.target.files.length ? e.target.files[0] : e.target.value;
 
     let error = e.target.files ? Filevalidator(e) : Formvalidator(e)
 
@@ -54,7 +54,7 @@ export default function Testimonialcreate() {
       setshow(true);
       console.log(error)
     } else {
-      let item = testimonialStatedata.find(x => x.name === data.name)
+      let item = Array.isArray(testimonialStatedata) ? testimonialStatedata.find(x => x.name === data.name) : null;
       if (item) {
         seterrormessage((old) => {
           return {
@@ -64,13 +64,20 @@ export default function Testimonialcreate() {
         })
         return
       }
-        dispatch(Createtestimonial({ ...data }))
-        navigate("/admin/testimonial");  
+
+      const Formdata = new FormData();
+
+      Object.keys(data).forEach((key) => {
+        Formdata.append(key, data[key]);
+      })
+
+      dispatch(Createtestimonial(Formdata))
+      navigate("/admin/testimonial");
     }
   }
   useEffect(() => {
     dispatch(Gettestimonial());
-  }, [testimonialStatedata])
+  }, [])
   return (
     <>
       <div className="container-fluid">
@@ -115,9 +122,9 @@ export default function Testimonialcreate() {
 
                 </div>
                 <div className='col-md-12 mb-3'>
-                  <label >Discription*</label>
-                  <textarea name="discription" rows={4} placeholder='Enter discription about loan....' className={`form-control border-3 ${show && errormessage.discription ? "border-danger" : "border-primary"}`} onChange={inputdata}></textarea>
-                  {show && errormessage.discription ? <p className='text-danger'>{show && errormessage.discription}</p> : null}
+                  <label >description*</label>
+                  <textarea name="description" rows={4} placeholder='Enter description about loan....' className={`form-control border-3 ${show && errormessage.description ? "border-danger" : "border-primary"}`} onChange={inputdata}></textarea>
+                  {show && errormessage.description ? <p className='text-danger'>{show && errormessage.description}</p> : null}
                 </div>
                 {/* Submit */}
                 <div className="col-md-12 mb-3">

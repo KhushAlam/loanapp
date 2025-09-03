@@ -62,25 +62,22 @@ export default function Servicescreate() {
         if (error) {
             setshow(true);
         } else {
-            let item = serviceStatedata.find((x) => x.id !== id && Number(x.amount) === Number(data.amount));
-            if (item) {
-                setshow(true);
-                seterrormessage((old) => ({
-                    ...old,
-                    amount: "Same Loan Amount Service already exists"
-                }));
-                return;
-            }
-            dispatch(Updateservice({ ...data }));
+            
+            const Fromdata = new FormData()
+            Object.keys(data).forEach((key) => {
+                Fromdata.append(key, data[key]);
+            });
+
+            dispatch(Updateservice(Fromdata));
             navigate("/admin/services");
         }
     }
     useEffect(() => {
         dispatch(Getservice())
         if (serviceStatedata.length) {
-            setdata(serviceStatedata.find((x) => x.id === id))
+            setdata(serviceStatedata.find((x) => x._id === id))
         }
-    }, [serviceStatedata.length, id])
+    }, [serviceStatedata.length,])
 
     return (
         <>

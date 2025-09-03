@@ -13,8 +13,7 @@ export default function Testimonial() {
 
     function deletetestimonial(id) {
         if (window.confirm("Do you want to delete")) {
-            let item = testimonialStatedata.find(x => x.id === id)
-            console.log(item)
+            let item = testimonialStatedata.find(x => x._id === id)
             if (item) {
                 dispatch(Deletetestimonial(item))
             }
@@ -22,10 +21,14 @@ export default function Testimonial() {
     }
     useEffect(() => {
         dispatch(Gettestimonial())
-    }, [testimonialStatedata.length])
+    }, [])
 
     useEffect(() => {
-        setdata(testimonialStatedata)
+        if(Array.isArray(testimonialStatedata)){
+            setdata(testimonialStatedata)
+        }else{
+            setdata([]);
+        }
     }, [testimonialStatedata])
 
     return (
@@ -53,15 +56,15 @@ export default function Testimonial() {
                                 <tbody>
                                     {
                                         data.map((item, index) => {
-                                            return <tr>
-                                                <td>{item.id}</td>
+                                            return <tr key={index}>
+                                                <td>{item._id}</td>
                                                 <td>{item.name}</td>
-                                                <td><Link to={`${process.env.REACT_APP_BACKEND_SERVER}${item.pic}`} target='_blank'>
-                                                    <img src={`${process.env.REACT_APP_BACKEND_SERVER}${item.pic}`} height={80} width={80} />
+                                                <td><Link to={`${item.pic}`} target='_blank'>
+                                                    <img src={`${item.pic}`} height={80} width={80} />
                                                 </Link></td>
-                                                <td width={400} height={50}><div className='overflow-scroll overflow-x-hidden h-100 w-100'>{item.discription}</div></td>
-                                                <td><Link to={`/admin/testimonial/update/${item.id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
-                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item.id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                                <td width={400} height={50}><div className='overflow-scroll overflow-x-hidden h-100 w-100'>{item.description}</div></td>
+                                                <td><Link to={`/admin/testimonial/update/${item._id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
+                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
                                             </tr>
                                         })
                                     }

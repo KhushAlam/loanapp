@@ -12,15 +12,22 @@ export default function Services() {
 
     useEffect(() => {
         dispatch(Getservice())
-    }, [serviceStatedata.length])
+    }, [])
 
     useEffect(() => {
-        setdata(serviceStatedata);
+        if (Array.isArray(serviceStatedata)) {
+            setdata(serviceStatedata);
+        } else {
+            setdata([]);
+        }
     }, [serviceStatedata])
 
     function deleteservice(id) {
         if (window.confirm("Are you Sure to delete")) {
-            dispatch(Deleteservice({ id: id }))
+            let item = serviceStatedata.find(x => x._id === id);
+            if (item) {
+                dispatch(Deleteservice(item))
+            }
         }
     }
 
@@ -57,8 +64,8 @@ export default function Services() {
                                             <td>{item.duration}</td>
                                             <td>{item.installment}</td>
                                             <td>{item.active === true ? "Yes" : "No"}</td>
-                                            <td><Link to={`/admin/services/update/${item.id}`}><button className='btn btn-primary mt-1'><i className='fa fa-edit text-light'></i></button></Link></td>
-                                            <td><button className='btn btn-danger mt-1' onClick={() => { deleteservice(item.id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                            <td><Link to={`/admin/services/update/${item._id}`}><button className='btn btn-primary mt-1'><i className='fa fa-edit text-light'></i></button></Link></td>
+                                            <td><button className='btn btn-danger mt-1' onClick={() => { deleteservice(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
                                         </tr>
                                     })}
                                 </tbody>

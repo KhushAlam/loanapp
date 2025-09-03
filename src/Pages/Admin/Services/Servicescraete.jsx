@@ -68,7 +68,13 @@ export default function Servicescreate() {
                 }));
                 return;
             }
-            dispatch(Createservice({ ...data }));
+
+            const Fromdata = new FormData()
+            Object.keys(data).forEach((key) => {
+                Fromdata.append(key, data[key]);
+            })
+
+            dispatch(Createservice(Fromdata));
             navigate("/admin/services");
         }
     }

@@ -1,13 +1,13 @@
 import React from "react"
 export async function createRecord(collection, payload) {
-    let responce = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}`, {
+    let responce =  fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}`, {
         method: "POST",
         body: payload
     })
     return (await responce).json()
 }
 export async function createmultipleRecord(collection, payload) {
-    let responce = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}`, {
+    let responce =  fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}`, {
         method: "POST",
         headers: {
         },
@@ -25,7 +25,8 @@ export async function getRecord(collection) {
     return (await responce).json()
 }
 export async function updateRecord(collection, payload) {
-    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/update/${payload._id}`, {
+    let id = payload.get("_id");
+    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/update/${id}`, {
         method: "PUT",
         body: payload
     })
@@ -43,7 +44,7 @@ export async function updatemultipleRecord(collection, payload) {
 }
 
 export async function deleteRecord(collection, id) {
-    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/delete/${id}`, {
+    let responce = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/delete/${id}`, {
         method: "DELETE",
     })
     return (await responce).json()

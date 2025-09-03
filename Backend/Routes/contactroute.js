@@ -1,9 +1,12 @@
 import express from "express";
 import Contact from "../Models/contactusSchema.js";
+import multer from "multer";
+
+const upload = multer();
 
 const contactRouter = express.Router();
 
-contactRouter.get("/get", async (req, res) => {
+contactRouter.get("/get",upload.none(), async (req, res) => {
     try {
         const data = await Contact.find();
         if (!data) {
@@ -17,13 +20,12 @@ contactRouter.get("/get", async (req, res) => {
 
 contactRouter.post("/create", async (req, res) => {
     try {
-        const newdata = new Contact({
-            ...req.body
-        })
+        const newdata = new Contact(req.body);
         await newdata.save()
         return res.status(200).json({ message: "We recaived your message our team contact you as soon as possible" })
     } catch (err) {
-        return res.status(500).json({ message: "Internal server problem" })
+    
+        return res.status(500).json({err:err, message: "Internal server problem" })
     }
 })
 

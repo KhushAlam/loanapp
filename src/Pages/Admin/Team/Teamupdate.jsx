@@ -62,8 +62,12 @@ export default function Teamupdate() {
       formData.append("name", data.name || "");
       formData.append("work", data.work || "");
       formData.append("pic", data.pic || "");   // file ya string dono ho sakta hai
-      formData.append("active", data.active || "");
+      formData.append("active", data.active === "1" ? true : false || true);
       formData.append("discription", data.discription || "")
+
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
 
       dispatch(Updateteam(formData))
       navigate("/admin/team");

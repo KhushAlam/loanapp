@@ -30,7 +30,7 @@ export default function Testimonialupdate() {
 
   function inputdata(e) {
     let name = e.target.name;
-    let value = e.target.files && e.target.files.length ? "testimonial/" + e.target.files[0].name : e.target.value;
+    let value = e.target.files && e.target.files.length ? e.target.files[0] : e.target.value;
 
     let error = e.target.files ? Filevalidator(e) : Formvalidator(e)
 
@@ -51,19 +51,26 @@ export default function Testimonialupdate() {
   function postdata(e) {
     e.preventDefault();
     let error = Object.values(errormessage).find(x => x !== "");
+    
     if (error) {
       setshow(true);
     } else {
-      dispatch(Updatetestimonial({ ...data }))
+
+      const Fromdata = new FormData()
+      Object.keys(data).forEach((key) => {
+        Fromdata.append(key, data[key]);
+      })
+
+      dispatch(Updatetestimonial(Fromdata));
       navigate("/admin/testimonial");
     }
   }
   useEffect(() => {
     dispatch(Gettestimonial());
     if (testimonialStatedata.length) {
-      setdata(testimonialStatedata.find(x => x.id === id));
+      setdata(testimonialStatedata.find(x => x._id === id));
     }
-  }, [testimonialStatedata.length, id])
+  }, [])
   return (
     <>
       <div className="container-fluid">

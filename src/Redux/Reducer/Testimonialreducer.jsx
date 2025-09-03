@@ -5,17 +5,17 @@ export default function Testimonialreducer(state = [], action) {
     switch (action.type) {
         case CREATE_TESTIMONIAL_RED:
             return [...state, action.payload]
+
         case GET_TESTIMONIAL_RED:
-            return action.payload
+            return action.payload.data
+
         case UPDATE_TESTIMONIAL_RED:
-            let index = state.findIndex((x) => x.id === action.payload.id);
-            state[index] = action.payload.name
-            state[index] = action.payload.fathername;
-            state[index] = action.payload.pic;
-            state[index] = action.payload.active;
-            return state
+             return state.map((x) =>
+                x._id === action.payload._id ? { ...x, ...action.payload } : x
+            );
+            
         case DELETE_TESTIMONIAL_RED:
-            return state.filter((x) => x.id !== action.payload.id)
+            return state.filter((x) => x._id !== action.payload._id)
 
         default:
             return state

@@ -14,7 +14,6 @@ export default function Team() {
     function deletetestimonial(id) {
         if (window.confirm("Do you want to delete")) {
             let item = teamStatedata.find(x => x._id === id)
-            console.log(item)
             if (item) {
                 dispatch(Deleteteam(item))
             }

@@ -17,7 +17,8 @@ export  function Getteam() {
 export  function Updateteam(data) {
     return {
         type: UPDATE_TEAM,
-        payload: data
+        payload: data,
+        
     }
 }
 
