@@ -13,7 +13,7 @@ export default function User() {
 
     function deletetestimonial(id) {
         if (window.confirm("Do you want to delete")) {
-            let item = usersStatedata.find(x => x.id === id)
+            let item = usersStatedata.find(x => x._id === id)
             if (item) {
                 dispatch(Deleteusers(item))
             }
@@ -21,7 +21,7 @@ export default function User() {
     }
     useEffect(() => {
         dispatch(Getusers())
-    }, [usersStatedata.length])
+    }, [])
 
     useEffect(() => {
         setdata(usersStatedata)
@@ -41,7 +41,6 @@ export default function User() {
                             <table className='table table-bordered table-striped table-hover text-center'>
                                 <thead >
                                     <tr>
-                                        <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Username</th>
@@ -55,14 +54,13 @@ export default function User() {
                                     {
                                         data.map((item, index) => {
                                             return <tr key={index}>
-                                                <td>{item.id}</td>              
                                                 <td>{item.name}</td>
                                                 <td>{item.email}</td>
                                                 <td>{item.username}</td>
                                                 <td>{item.role}</td>
-                                                <td>{item.active==="1"?"Yes":"NO"}</td>
-                                                <td><Link to={`/admin/user/update/${item.id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
-                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item.id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                                <td>{item.active===true?"Yes":"NO"}</td>
+                                                <td><Link to={`/admin/user/update/${item._id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
+                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
                                             </tr>
                                         })
                                     }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from "../../../Components/Sidebar"
 import Breadcrum from '../../../Components/Breadcrum'
 import { Link, useNavigate } from 'react-router-dom'
-import { Createloan } from "../../../Redux/ActionCreator/Loanactioncreator"
+import { Createloan, Getloan } from "../../../Redux/ActionCreator/Loanactioncreator"
 import { Getservice } from "../../../Redux/ActionCreator/Serviceactioncreater"
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -70,7 +70,7 @@ export default function Loanapplicationcreate() {
 
     function inputdata(e) {
         let name = e.target.name;
-        let value = e.target.files && e.target.files.length ? "loan/" + e.target.files[0].name : e.target.value;
+        let value = e.target.files && e.target.files.length ? e.target.files[0] : e.target.value;
 
         seterrormassege((old) => {
             return {
@@ -104,17 +104,32 @@ export default function Loanapplicationcreate() {
                 })
                 return
             }
-            dispatch(Createloan({ ...data }));
+
+            const Fromdata = new FormData()
+            Object.keys(data).forEach((key) => {
+                Fromdata.append(key, data[key]);
+            })
+            dispatch(Createloan(Fromdata));
             navigate('/admin/loanapplication')
         }
     }
 
     useEffect(() => {
         dispatch(Getservice())
-        if (serviceStatedata.length) {
+    }, [])
+
+    useEffect(()=>{
+        dispatch(Getloan())
+    },[]);
+
+    useEffect(() => {
+        if (Array.isArray(serviceStatedata)) {
             setservices(serviceStatedata)
+        } else {
+            setservices([])
         }
     }, [serviceStatedata])
+
 
 
     return (

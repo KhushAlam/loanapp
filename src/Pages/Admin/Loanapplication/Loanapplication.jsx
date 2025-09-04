@@ -45,10 +45,10 @@ export default function Loanapplication() {
 
     function deleteapplication(id) {
         if (!loanStatedata || loanStatedata.length === 0) return;
-        let item = loanStatedata.find((x) => x.id === id)
+        let item = loanStatedata.find((x) => x._id === id)
         if (item) {
             if (window.confirm("Do you want to delete this Appication"))
-                dispatch(Deleteloan({ ...item }));
+                dispatch(Deleteloan(item));
         }
     }
 
@@ -81,16 +81,16 @@ export default function Loanapplication() {
                                 <tbody>
                                     {loanStatedata.filter((x) => x.status !== "Approved").map((item, index) => {
                                         return <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{item._id}</td>
                                             <td>{item.name}</td>
                                             <td>{item.mobile}</td>
                                             <td>{item.aadhar}</td>
                                             <td>{item.email}</td>
                                             <td>{item.amount}</td>
                                             <td>{new Date(item.date).toLocaleString()}</td>
-                                            <td><Link to={`/admin/loanapplication/show/${item.id}`}><button className='btn btn-primary'><i className='fa fa-eye text-light'></i></button></Link></td>
-                                            <td><Link to={`/admin/loanapplication/update/${item.id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
-                                            <td><button className='btn btn-danger' onClick={() => { deleteapplication(item.id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                            <td><Link to={`/admin/loanapplication/show/${item._id}`}><button className='btn btn-primary'><i className='fa fa-eye text-light'></i></button></Link></td>
+                                            <td><Link to={`/admin/loanapplication/update/${item._id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
+                                            <td><button className='btn btn-danger' onClick={() => { deleteapplication(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
                                         </tr>
                                     })}
                                 </tbody>

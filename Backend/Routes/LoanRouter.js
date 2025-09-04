@@ -27,24 +27,45 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage, fileFilter });
 
 
-loanRouter.post("/create", upload.fields([{ name: "pic", maxCount: 1 }, { name: "pdfs", maxCount: 4 }]), async (req, res) => {
+loanRouter.post("/create", upload.any(), async (req, res) => {
     try {
-        const pic = req.files["pic"] ? req.files["pic"][0].path : null;
-        const pdfs = req.files["pdfs"] ? req.files["pdfs"].map(file => file.path) : [];
+        // files array aaega
+        let pic = null;
+
+        // sab files check karenge
+        req.files.forEach(file => {
+            if (file.fieldname === "pic") {
+                pic = file.filename;
+            } else {
+                // baaki sab ko pdfs array me dalenge
+                const pancard = req.files.find(f => f.fieldname === "pancard")?.filename;
+                const aadharcard = req.files.find(f => f.fieldname === "aadharcard")?.filename;
+                const bankpassbook = req.files.find(f => f.fieldname === "bankpassbook")?.filename;
+                const salaryslip = req.files.find(f => f.fieldname === "salaryslip")?.filename;
+
+            }
+        });
+
         const newdata = new Loan({
             ...req.body,
             pic,
-            pdfs,
-        })
+            pancard,
+            aadharcard,
+            bankpassbook,
+            salaryslip
+        });
+
         const save = await newdata.save();
         if (!save) {
-            return res.status(500).json({ message: "Problem in data Saving" })
+            return res.status(500).json({ message: "Problem in data Saving" });
         }
-        return res.status(200).json({ message: "Loan applyed Sucessfully" });
+        return res.status(200).json({ message: "Loan applied Successfully" });
     } catch (err) {
-        return res.status(500).json({ message: "Internal server problem" })
+        console.error(err);
+        return res.status(500).json({ message: "Internal server problem" });
     }
-})
+});
+
 
 loanRouter.get("/get", async (req, res) => {
     try {

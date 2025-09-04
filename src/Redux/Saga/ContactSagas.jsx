@@ -4,7 +4,7 @@ import { createmultipleRecord, createRecord, deleteRecord, getRecord, updatemult
 
 
 function* createSaga(action) {
-    let responce = yield call(createRecord,"contact/get",action.payload)
+    let responce = yield call(createRecord,"contact/create",action.payload)
     yield put({ type: CREATE_CONTACT_RED, payload: responce })
 
     // let responce = yield createmultipleRecord("contactus")
@@ -12,7 +12,7 @@ function* createSaga(action) {
 }
 
 function* getSaga(action) {
-    let responce = yield call(createRecord,"contact/create",action.payload)
+    let responce = yield call(getRecord,"contact/get",action.payload)
     yield put({ type: GET_CONTACT_RED, payload: responce })
 }
 function* updateSaga(action) {

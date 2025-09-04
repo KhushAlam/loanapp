@@ -44,7 +44,7 @@ export async function updatemultipleRecord(collection, payload) {
 }
 
 export async function deleteRecord(collection, id) {
-    let responce = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/delete/${id}`, {
+    let responce =  fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/delete/${id}`, {
         method: "DELETE",
     })
     return (await responce).json()

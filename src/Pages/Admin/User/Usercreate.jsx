@@ -37,7 +37,7 @@ export default function Usercreate() {
 
   function inputdata(e) {
     let name = e.target.name;
-    let value = e.target.files && e.target.files.length ? "user/" + e.target.files[0].name : e.target.value;
+    let value = e.target.files && e.target.files.length ? e.target.files[0] : e.target.value;
 
     let error = e.target.files ? Filevalidator(e) : Formvalidator(e)
 
@@ -58,7 +58,6 @@ export default function Usercreate() {
   function postdata(e) {
     e.preventDefault();
     let error = Object.values(errormessage).find(x => x !== "");
-    console.log(error)
     if (error) {
       setshow(true);
     } else {
@@ -73,13 +72,19 @@ export default function Usercreate() {
         })
         return
       }
-      dispatch(Createusers({ ...data }))
+
+      const Fromdata = new FormData;
+      Object.keys(data).forEach(element => {
+        Fromdata.append(element, data[element])
+      });
+
+      dispatch(Createusers(Fromdata));
       navigate("/admin/user");
     }
   }
   useEffect(() => {
     dispatch(Getusers());
-  }, [usersStatedata])
+  }, [])
   return (
     <>
       <div className="container-fluid">

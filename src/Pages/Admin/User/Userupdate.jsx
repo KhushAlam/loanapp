@@ -12,33 +12,33 @@ export default function Userupdate() {
   let navigate = useNavigate();
   let { id } = useParams();
   let usersStatedata = useSelector(state => state.usersStatedata);
-   let [data, setdata] = useState({
-      name: "",
-      username: "",
-      mobile:"",
-      email:"",
-      password:"",
-      role:"",
-      pic: "",
-      active: "",
-      address: ""
-    })
-    let [errormessage, seterrormessage] = useState({
-      name: "",
-      username: "",
-      mobile:"",
-      email:"",
-      password:"",
-      role:"",
-      pic: "",
-      active: "",
-      address: ""
-    })
+  let [data, setdata] = useState({
+    name: "",
+    username: "",
+    mobile: "",
+    email: "",
+    password: "",
+    role: "",
+    pic: "",
+    active: "",
+    address: ""
+  })
+  let [errormessage, seterrormessage] = useState({
+    name: "",
+    username: "",
+    mobile: "",
+    email: "",
+    password: "",
+    role: "",
+    pic: "",
+    active: "",
+    address: ""
+  })
   let [show, setshow] = useState(false)
 
   function inputdata(e) {
     let name = e.target.name;
-    let value = e.target.files && e.target.files.length ? "user/" + e.target.files[0].name : e.target.value;
+    let value = e.target.files && e.target.files.length ? e.target.files[0] : e.target.value;
 
     let error = e.target.files ? Filevalidator(e) : Formvalidator(e)
 
@@ -62,16 +62,21 @@ export default function Userupdate() {
     if (error) {
       setshow(true);
     } else {
-      dispatch(Updateusers({ ...data }))
+
+      const Fromdata = new FormData()
+      Object.keys(data).forEach((element) => {
+        Fromdata.append(element, data[element])
+      })
+      dispatch(Updateusers(Fromdata));
       navigate("/admin/user");
     }
   }
   useEffect(() => {
     dispatch(Getusers());
     if (usersStatedata.length) {
-      setdata(usersStatedata.find(x => x.id === id));
+      setdata(usersStatedata.find(x => x._id === id));
     }
-  }, [usersStatedata.length, id])
+  }, [])
   return (
     <>
       <div className="container-fluid">
@@ -87,7 +92,7 @@ export default function Userupdate() {
                 <span><i className='fa fa-arrow-left float-end text-light fs-5'></i></span>
               </Link>
             </h4>
-             <form onSubmit={postdata}>
+            <form onSubmit={postdata}>
               <div className="row mt-3">
                 {/* Name */}
                 <div className='col-md-6 mb-3'>
@@ -117,7 +122,7 @@ export default function Userupdate() {
                 </div>
                 <div className='col-md-6 mb-3'>
                   <label>Role*</label>
-                  <select name="role" onChange={inputdata} className={`form-control form-select border-3 ${show&&errormessage.role?"border-danger":'border-primary'}`}>
+                  <select name="role" onChange={inputdata} className={`form-control form-select border-3 ${show && errormessage.role ? "border-danger" : 'border-primary'}`}>
                     <option value="">Select Role</option>
                     <option value="User">User</option>
                     <option value="Admin">Admin</option>

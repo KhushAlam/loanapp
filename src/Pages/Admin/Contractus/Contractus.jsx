@@ -58,7 +58,7 @@ export default function Contractus() {
                                                       <td>{item._id}</td>
                                                       <td>{item.name}</td>
                                                       <td>{item.email}</td>
-                                                      <td><div className="overflow-y-scroll overflow-x-hidden h-10 w-[200px]">{item.message}</div></td>
+                                                      <td><div className="overflow-y-scroll overflow-x-hidden h-[30px] w-[200px]">{item.message}</div></td>
                                                       <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
                                                   </tr>
                                               })

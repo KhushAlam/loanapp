@@ -6,7 +6,7 @@ const upload = multer();
 
 const contactRouter = express.Router();
 
-contactRouter.get("/get",upload.none(), async (req, res) => {
+contactRouter.get("/get", async (req, res) => {
     try {
         const data = await Contact.find();
         if (!data) {
@@ -18,7 +18,7 @@ contactRouter.get("/get",upload.none(), async (req, res) => {
     }
 })
 
-contactRouter.post("/create", async (req, res) => {
+contactRouter.post("/create",upload.none(), async (req, res) => {
     try {
         const newdata = new Contact(req.body);
         await newdata.save()

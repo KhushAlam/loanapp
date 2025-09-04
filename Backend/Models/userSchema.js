@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
         minlength: [5, "Username must be at least 5 characters"],
         maxlength: [30, "Username must be less than 30 characters"]
     },
+    pic: {
+        type: String,
+        required: true
+    },
     mobile: {
         type: String,
         required: [true, "Mobile number is required"],
@@ -49,14 +53,15 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-userSchema.pre("save", async (next) => {
-    if (!this.ismodified("password")) {
-        return next()
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
+        return next();
     }
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-    next()
+    next();
 });
+
 
 
 const User = mongoose.model("User", userSchema);
