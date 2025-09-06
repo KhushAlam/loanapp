@@ -66,7 +66,7 @@ export default function Repayment() {
                   </tr>
                 </thead>
                 <tbody>
-                  {loanStatedata.filter(x => x.status === "paid").map((item, index) => {
+                  {loanStatedata.filter(x => x.status === "Paid").map((item, index) => {
                     return <tr key={index}>
                       <td>{item.id}</td>
                       <td>{item.name}</td>

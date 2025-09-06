@@ -23,7 +23,7 @@ function* updateSaga(action) {
     // yield put({ type: UPDATE_LOAN_RED, payload: action.payload })
 }
 function* deleteSaga(action) {
-    let id = action.payload.get("_id");
+    let id = action.payload._id;
     let responce = yield call(deleteRecord, "loan", id);
     yield put({ type: DELETE_LOAN_RED, payload: action.payload })
 }

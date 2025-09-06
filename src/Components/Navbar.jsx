@@ -7,9 +7,9 @@ export default function Navbar() {
             <nav className='top-header bg-primary h-10 w-100 text-light overflow-hidden'>
                 <div className="row">
                     <div className="col-md-9 col-md-6">
-                        <Link to="" target='_blank' rel='noreffrel' className='text-decoration-none'><i className='fa fa-envelope text-light ms-3 me-1  pt-2 pb-2'></i><span className='text-light '>khush735265@gmail.com</span></Link>
-                        <Link to="" target='_blank' rel='noreffrel' className='text-decoration-none'><i className='fa fa-phone text-light ms-3 me-1 pt-2 pb-2'></i><span className='text-light '>8092492943</span></Link>
-                        <Link to="" target='_blank' rel='noreffrel' className='text-decoration-none'><i className='fa fa-whatsapp text-light ms-3 me-1 pt-2 pb-2'></i><span className='text-light '>7324935063</span></Link>
+                        <Link to="" target='_blank' rel='noreffrel' className='text-decoration-none'><i className='fa fa-envelope text-light ms-3 me-1  pt-2 pb-2'></i><span className='text-light d-none d-md-inline fs-6 '>khush735265@gmail.com</span></Link>
+                        <Link to="" target='_blank' rel='noreffrel' className='text-decoration-none'><i className='fa fa-phone text-light ms-3 me-1 pt-2 pb-2'></i><span className='text-light d-none d-md-inline fs-6'>8092492943</span></Link>
+                        <Link to="" target='_blank' rel='noreffrel' className='text-decoration-none'><i className='fa fa-whatsapp text-light ms-3 me-1 pt-2 pb-2'></i><span className='text-light d-none d-md-inline fs-6 '>7324935063</span></Link>
                     </div>
                     <div className="col-md-3 ">
                         <Link to="" target='_blank' className='float-end' rel='noreffrel'><i className='bi bi-twitter text-light ms-3 me-1 pt-3 fs-4 pb-2'></i></Link>
@@ -58,7 +58,8 @@ export default function Navbar() {
                                 <NavLink to="/admin" className="nav-link ">Admin</NavLink>
                             </li>
                             <li className="nav-item me-3">
-                                <button className='btn btn-primary h-80'><NavLink to="/login" className="text-light text-capitalize text-decoration-none">Login</NavLink></button>
+                                {localStorage.getItem("login")==="true"? (<button className='btn btn-primary h-80 text-capitalize'>{localStorage.getItem("name")}</button>):
+                                 (<button className='btn btn-primary h-80'><NavLink to="/login" className="text-light text-capitalize text-decoration-none">Login</NavLink></button>)}
                             </li>
 
                         </ul>

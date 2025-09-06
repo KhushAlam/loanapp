@@ -9,30 +9,41 @@ export default function Show() {
     let { id } = useParams()
     let dispatch = useDispatch()
     let navigate = useNavigate()
-    let [data, setdata] = useState([])
+    let [data, setdata] = useState([]);
     let loanStatedata = useSelector(state => state.loanStatedata);
 
     useEffect(() => {
         dispatch(Getloan())
         if (loanStatedata.length) {
-            setdata(loanStatedata.find(x => x.id === id))
+            setdata(loanStatedata.find(x => x._id === id))
         }
-    }, [loanStatedata.length, id])
+    }, [])
 
     function approveapplication(id) {
         if (window.confirm("You want to approve this application")) {
-            let item = loanStatedata.find(x => x.id === id)
+            let item = loanStatedata.find(x => x._id === id)
+            console.log(item);
             if (item) {
-                dispatch(Updateloan({ ...data, status: "Approved" }))
+                const updateddata = { ...data, status: "Approved" };
+                const Fromdata = new FormData()
+                Object.keys(updateddata).forEach((key) => {
+                    Fromdata.append(key, updateddata[key]);
+                })
+                dispatch(Updateloan(Fromdata));
                 navigate("/admin/loanapplication");
             }
         }
     }
     function rejectapplication(id) {
         if (window.confirm("Do you want to reject this application")) {
-            let item = loanStatedata.find(x => x.id === id)
+            let item = loanStatedata.find(x => x._id === id)
             if (item) {
-                dispatch(Updateloan({ ...data, status: "rejected" }))
+                const updateddata = { ...data, status: "Rejected" };
+                const Fromdata = new FormData()
+                Object.keys(updateddata).forEach((key) => {
+                    Fromdata.append(key, updateddata[key]);
+                })
+                dispatch(Updateloan(Fromdata));
                 navigate("/admin/loanapplication")
             }
         }
@@ -53,8 +64,8 @@ export default function Show() {
                                     <tr>
                                         <th>Photo</th>
                                         <td>
-                                            <Link to={`${process.env.REACT_APP_BACKEND_SERVER}${data.pic}`} target='_blank' rel="noopener noreferrer">
-                                                <img src={`${process.env.REACT_APP_BACKEND_SERVER}${data.pic}`} height={100} width={150} />
+                                            <Link to={`${data.pic}`} target='_blank' rel="noopener noreferrer">
+                                                <img src={`${data.pic}`} height={100} width={150} />
                                             </Link>
                                         </td>
                                     </tr>
@@ -113,8 +124,8 @@ export default function Show() {
                                 </tbody>
                             </table>
                             <div className='h-20 w-100 content-center mb-5 mt-5'>
-                                <button className='btn btn-primary w-50' onClick={() => { approveapplication(data.id) }}>Approve</button>
-                                <button className='btn btn-danger w-50' onClick={() => { rejectapplication(data.id) }}>Reject</button>
+                                <button className='btn btn-primary w-50' onClick={() => { approveapplication(data._id) }}>Approve</button>
+                                <button className='btn btn-danger w-50' onClick={() => { rejectapplication(data._id) }}>Reject</button>
                             </div>
                         </div>
                     </div>

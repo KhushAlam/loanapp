@@ -88,17 +88,24 @@ export default function Loanapplicationupdate() {
             setshow(true)
         }
         else {
-            dispatch(Updateloan({ ...data }));
+
+            const Fromdata  = new FormData()
+            Object.keys(data).forEach((key)=>{
+                Fromdata.append(key,data[key]);
+            })
+            dispatch(Updateloan(Fromdata));
             navigate('/admin/loanapplication')
-        }
+        } 
     }
 
    useEffect(()=>{
     dispatch(Getloan())
     if(loanStatedata.length){
-        setdata(loanStatedata.find((x)=>x.id===id))
+        setdata(loanStatedata.find((x)=>x._id===id))
     }
    },[loanStatedata.length,id])
+
+
     return (
         <>
             <Breadcrum title="Admin --> Loan Update" />

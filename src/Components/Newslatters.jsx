@@ -38,10 +38,10 @@ export default function Newslatters() {
                         </div>
                     </div>
 
-                     <form className="d-flex justify-content-center mt-4">
+                     {/* <form className="d-flex justify-content-center mt-4">
                         <input type="email" className="form-control w-50 me-2" placeholder="Enter your email" required />
                         <button type="submit" className="btn btn-primary">Subscribe</button>
-                    </form>
+                    </form> */}
                     <small className="d-block mt-2 text-muted">We respect your privacy. No spam, only useful updates.</small>
                 </div>
             </section>

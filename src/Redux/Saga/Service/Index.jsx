@@ -26,11 +26,11 @@ export async function getRecord(collection) {
 }
 export async function updateRecord(collection, payload) {
     let id = payload.get("_id");
-    let responce = fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/update/${id}`, {
+    let responce = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}${collection}/update/${id}`, {
         method: "PUT",
         body: payload
     })
-    return (await responce).json()
+    return  responce.json()
 }
 
 export async function updatemultipleRecord(collection, payload) {

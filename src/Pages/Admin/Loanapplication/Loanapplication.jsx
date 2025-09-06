@@ -79,7 +79,7 @@ export default function Loanapplication() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {loanStatedata.filter((x) => x.status !== "Approved").map((item, index) => {
+                                    {loanStatedata.filter((x) => x.status === "Approved").map((item, index) => {
                                         return <tr key={index}>
                                             <td>{item._id}</td>
                                             <td>{item.name}</td>

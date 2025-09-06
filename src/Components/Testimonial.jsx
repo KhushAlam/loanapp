@@ -81,12 +81,12 @@ export default function Testimonial() {
                                         <div className="d-flex flex-column align-items-center p-4">
                                             <div className="img mb-3">
                                                 <a
-                                                    href={`${process.env.REACT_APP_BACKEND_SERVER}${item.pic}`}
+                                                    href={`${item.pic}`}
                                                     target="_blank"
                                                     rel="noreferrer"
                                                 >
                                                     <img
-                                                        src={`${process.env.REACT_APP_BACKEND_SERVER}${item.pic}`}
+                                                        src={`${item.pic}`}
                                                         height={150}
                                                         width={150}
                                                         className="rounded-circle border border-primary"
@@ -113,7 +113,7 @@ export default function Testimonial() {
                                                                     className="overflow-auto custom-scroll"
                                                                     style={{ maxHeight: "100px", whiteSpace: "pre-wrap", paddingRight: "5px" }}
                                                                 >
-                                                                    {item.discription}
+                                                                    {item.description}
                                                                 </div></td>
                                                             </tr>
                                                         </tbody>

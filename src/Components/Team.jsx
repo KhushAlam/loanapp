@@ -28,7 +28,7 @@ export default function Team() {
                         return <div className="col-lg-3 col-md-4 col-sm-6" key={index}>
                         <div className="single-team mb-30">
                             <div className="team-img">
-                                <img src={`${process.env.REACT_APP_BACKEND_SERVER}${item.pic}`}/>
+                                <img src={`${item.pic}`} height={300} width={100}/>
                                 <div className="team-social">
                                     <li><Link to=''><i className="fab fa-facebook-f "></i></Link></li>
                                     <li><Link to=''><i className="fab fa-twitter "></i></Link></li>
