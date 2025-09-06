@@ -67,7 +67,7 @@ userRouter.post("/logout", async (req, res) => {
         res.status(500).json({ msg: err.message });
     }
 })
-userRouter.get("/login", async (req, res) => {
+userRouter.post("/login", async (req, res) => {
     try {
 
         const { username, password } = req.body;
@@ -85,8 +85,8 @@ userRouter.get("/login", async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid password" });
         }
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.json({ token, user });
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET);
+        res.json({ token, user ,message:"login Sucessfully"});
 
     } catch (err) {
         return res.status(500).json({ message: "internal server problem" })

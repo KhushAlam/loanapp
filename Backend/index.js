@@ -1,12 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
 import db from "./Database/db.js";
+import Razorpay from "razorpay"
+import crypto from "crypto";
 import serviceRouter from './Routes/serviceroute.js';
 import teamRouter from "./Routes/teamrouter.js";
 import tesitimonialRouter from "./Routes/testimonialroute.js";
 import contactRouter from "./Routes/contactroute.js";
 import userRouter from "./Routes/useroute.js";
 import loanRouter from "./Routes/LoanRouter.js";
+import paymentRouter from "./Routes/Paymentrouter.js"
 import cros from "cors";
 dotenv.config()
 
@@ -31,6 +34,8 @@ app.use("/testimonial", tesitimonialRouter);
 app.use("/contact", contactRouter);
 app.use("/user", userRouter);
 app.use("/loan", loanRouter);
+app.use("/api/payments",paymentRouter)
+
 
 
 app.listen(port, (err) => {

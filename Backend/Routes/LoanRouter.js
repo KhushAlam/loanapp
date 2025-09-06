@@ -1,8 +1,7 @@
 import express from "express";
 import Loan from "../Models/loanSchema.js"
 import multer from "multer";
-import path from "path";
-import mongoose from "mongoose";
+
 
 const loanRouter = express.Router();
 
@@ -12,7 +11,7 @@ const storage = multer.diskStorage({
         cb(null, "loan/")
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + "-" + file.originalname);
+        cb(null, Date.now() + file.originalname);
     }
 })
 
@@ -31,6 +30,10 @@ loanRouter.post("/create", upload.any(), async (req, res) => {
     try {
         // files array aaega
         let pic = null;
+        let pancard = null;
+        let aadharcard = null;
+        let bankpassbook = null;
+        let salaryslip = null;
 
         // sab files check karenge
         req.files.forEach(file => {
@@ -38,11 +41,10 @@ loanRouter.post("/create", upload.any(), async (req, res) => {
                 pic = file.filename;
             } else {
                 // baaki sab ko pdfs array me dalenge
-                const pancard = req.files.find(f => f.fieldname === "pancard")?.filename;
-                const aadharcard = req.files.find(f => f.fieldname === "aadharcard")?.filename;
-                const bankpassbook = req.files.find(f => f.fieldname === "bankpassbook")?.filename;
-                const salaryslip = req.files.find(f => f.fieldname === "salaryslip")?.filename;
-
+                pancard = req.files.find(f => f.fieldname === "pancard")?.filename;
+                aadharcard = req.files.find(f => f.fieldname === "aadharcard")?.filename;
+                bankpassbook = req.files.find(f => f.fieldname === "bankpassbook")?.filename;
+                salaryslip = req.files.find(f => f.fieldname === "salaryslip")?.filename;
             }
         });
 
@@ -79,21 +81,76 @@ loanRouter.get("/get", async (req, res) => {
     }
 });
 
-loanRouter.put("/update/:id", async (req, res) => {
+loanRouter.put("/update/:id", upload.any(), async (req, res) => {
     try {
-        let id = req.params.id
-        const data = { ...req.body };
-        const update = await Loan.findByIdAndUpdate(id, data, {
-            new: true,
-            runValidators: true,
-        })
-        if (!update) return res.status(404).json({ message: "data not Found" })
+        let id = req.params.id;
 
-        return res.status(200).json({ message: "Data updated suceefully" })
+        // agar installments string aayi ho to parse karo
+        if (req.body.installment) {
+            try {
+                req.body.installment = JSON.parse(req.body.installment);
+            } catch (e) {
+                return res.status(400).json({ message: "Invalid installment format" });
+            }
+        }
+
+        const existdata = await Loan.findById(id);
+        if (!existdata) {
+            return res.status(404).json({ message: "Data Not Found" });
+        }
+
+        // files handling
+        let pic = existdata.pic;
+        let pancard = existdata.pancard;
+        let aadharcard = existdata.aadharcard;
+        let bankpassbook = existdata.bankpassbook;
+        let salaryslip = existdata.salaryslip;
+
+        if (req.files && req.files.length > 0) {
+            req.files.forEach(file => {
+                switch (file.fieldname) {
+                    case "pic":
+                        pic = file.filename;
+                        break;
+                    case "pancard":
+                        pancard = file.filename;
+                        break;
+                    case "aadharcard":
+                        aadharcard = file.filename;
+                        break;
+                    case "bankpassbook":
+                        bankpassbook = file.filename;
+                        break;
+                    case "salaryslip":
+                        salaryslip = file.filename;
+                        break;
+                }
+            });
+        }
+
+        // update object
+        const newdata = {
+            ...req.body,
+            pic,
+            pancard,
+            aadharcard,
+            bankpassbook,
+            salaryslip
+        };
+
+        const update = await Loan.findByIdAndUpdate(id, newdata, { new: true });
+        if (!update) {
+            return res.status(500).json({ message: "Problem in update" });
+        }
+
+        return res.status(200).json({ message: "Loan updated successfully", data: update });
+
     } catch (err) {
-        return res.status(500).json({ message: "Internal server problem" })
+        console.error("Update Error:", err);
+        return res.status(500).json({ message: "Internal server problem" });
     }
-})
+});
+
 
 loanRouter.delete("/delete/:id", async (req, res) => {
     try {

@@ -132,8 +132,8 @@ const loanSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: "Submitted",
-        enum: ["Submitted", "Approved", "Rejected", "Paid"]
+        default: "Submited",
+        enum: ["Submited", "Approved", "Rejected", "Paid"]
     },
     date: {
         type: Date,
