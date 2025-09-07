@@ -58,15 +58,26 @@ userRouter.post("/logout", async (req, res) => {
         if (!token) return res.status(400).json({ msg: "Token missing" });
 
         const decoded = jwt.decode(token);
-        const expiresAt = new Date(decoded.exp * 1000); // convert exp to milliseconds
+        if (!decoded || !decoded.exp) {
+            return res.status(400).json({ msg: "Invalid token or expiry missing" });
+        }
+
+        const expiresAt = new Date(decoded.exp * 1000);
+        if (isNaN(expiresAt.getTime())) {
+            return res.status(400).json({ msg: "Invalid expiry date in token" });
+        }
 
         await Blacklist.create({ token, expiresAt });
 
         res.json({ msg: "Logged out successfully" });
     } catch (err) {
+        console.error(err);
         res.status(500).json({ msg: err.message });
     }
-})
+});
+
+
+
 userRouter.post("/login", async (req, res) => {
     try {
 
@@ -85,8 +96,8 @@ userRouter.post("/login", async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid password" });
         }
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET);
-        res.json({ token, user ,message:"login Sucessfully"});
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        res.json({ token, user, message: "login Sucessfully" });
 
     } catch (err) {
         return res.status(500).json({ message: "internal server problem" })
@@ -103,6 +114,19 @@ userRouter.get("/get", async (req, res) => {
     }
 })
 
+userRouter.get("/get/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await User.findOne({ _id: id });
+        if (data.pic) {
+            data.pic = `http://localhost:8090/users/${data.pic}`
+        }
+        if (!data) return res.status(404).json({ message: "data not found" })
+        else return res.status(200).json({ data: data, message: "data found" });
+    } catch (err) {
+        return res.status(500).json({ message: "internal server error" });
+    }
+})
 userRouter.put("/update/:id", upload.single("pic"), async (req, res) => {
     try {
         const id = req.params.id;
@@ -113,7 +137,7 @@ userRouter.put("/update/:id", upload.single("pic"), async (req, res) => {
             return res.status(404).json({ message: "User Not Found" });
         }
         if (req.file) {
-            updateddata.pic = updateddata.file.filename
+            updateddata.pic = req.file.filename
         } else {
             updateddata.pic = existdata.pic
         }

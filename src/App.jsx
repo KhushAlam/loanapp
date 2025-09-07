@@ -37,6 +37,9 @@ import Commercial from './Components/Commercial'
 import Construction from './Components/Construction'
 import Loanapplicationuser from './Components/Loanapplicationuser'
 import Welcome from './Components/Welcome'
+import Profile from './Components/Profile'
+import Updateprofile from './Components/Updateprofile'
+import Repaymentstatus from './Components/Repaymentstatus'
 
 
 export default function App() {
@@ -60,6 +63,9 @@ export default function App() {
           <Route path='/personal' element={<Personal />}></Route>
           <Route path='/loan/application' element={<Loanapplicationuser />}></Route>
           <Route path='/welcome' element={<Welcome />}></Route>
+          <Route path='/profile' element={<Profile />}></Route>
+          <Route path='/update/:id' element={<Updateprofile/>}></Route>
+          
 
 
 
@@ -101,6 +107,7 @@ export default function App() {
 
           {/* Repayment */}
           <Route path='/admin/repayment' element={<Repayment />} />
+          <Route path='/admin/repayment/status/:id' element={<Repaymentstatus/>}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -48,7 +48,7 @@ export default function Login() {
       localStorage.setItem("role", user.role)
       localStorage.setItem("token", token)
 
-      if (user.role === "user") {
+      if (user.role === "User") {
         navigate("/profile")
       } else if (!user.role) {
         navigate("/*")

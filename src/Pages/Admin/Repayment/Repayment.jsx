@@ -62,20 +62,20 @@ export default function Repayment() {
                     <th>Date</th>
                     <th>Duration</th>
                     <th>Status</th>
-                    <th>Pay Loan</th>
+                    <th>Show Repayments</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loanStatedata.filter(x => x.status === "Paid").map((item, index) => {
                     return <tr key={index}>
-                      <td>{item.id}</td>
+                      <td>{item._id.slice(0, 4)}</td>
                       <td>{item.name}</td>
                       <td>{item.aadhar}</td>
                       <td>{item.amount}</td>
                       <td>{new Date(item.date).toLocaleDateString()}</td>
                       <td>{item.duration}</td>
                       <td>{item.status}</td>
-                      <td><button className='btn btn-primary'><i className='fa fa-eye text-light'></i></button></td>
+                      <td><Link to={`/admin/repayment/status/${item._id}`}><button className='btn btn-primary border-none'><i className='fa fa-eye text-light'></i></button></Link></td>
                     </tr>
                   })}
                 </tbody>

@@ -18,6 +18,7 @@ const app = express();
 const port = process.env.BACKEND_PORT;
 
 // app.use(morgan("combined"));
+app.use('/users', express.static('users'));
 app.use("/loan",express.static("loan"));
 app.use("/testimonial", express.static("testimonial"));
 app.use("/uploads", express.static("uploads"));

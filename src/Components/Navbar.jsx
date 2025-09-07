@@ -2,6 +2,38 @@ import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 export default function Navbar() {
+    const logout = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
+            const res = await fetch("http://localhost:8090/user/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`  // token backend ko send kar rahe
+                }
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                // Token localStorage se remove
+                localStorage.removeItem("token");
+                localStorage.removeItem("login");
+                localStorage.removeItem("name");
+                localStorage.removeItem("role");
+
+                // Optional: redirect user
+                window.location.href = "/login";
+            } else {
+                alert(data.msg || "Logout failed");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong while logging out");
+        }
+    };
+
     return (
         <>
             <nav className='top-header bg-primary h-10 w-100 text-light overflow-hidden'>
@@ -57,10 +89,54 @@ export default function Navbar() {
                             <li className="nav-item me-3">
                                 <NavLink to="/admin" className="nav-link ">Admin</NavLink>
                             </li>
-                            <li className="nav-item me-3">
-                                {localStorage.getItem("login")==="true"? (<button className='btn btn-primary h-80 text-capitalize'>{localStorage.getItem("name")}</button>):
-                                 (<button className='btn btn-primary h-80'><NavLink to="/login" className="text-light text-capitalize text-decoration-none">Login</NavLink></button>)}
+                            <li className="nav-item me-3 dropdown">
+                                {localStorage.getItem("login") === "true" ? (
+                                    <>
+                                        <button
+                                            className="btn btn-primary h-80 text-capitalize dropdown-toggle"
+                                            type="button"
+                                            id="dropdownMenuButton"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                        >
+                                            {localStorage.getItem("name")}
+                                        </button>
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            {localStorage.getItem("role") === "User" ? (
+                                                <li>
+                                                    <Link className="dropdown-item" to="/profile">
+                                                        Profile
+                                                    </Link>
+                                                </li>
+                                            ) : (
+                                                <li>
+                                                    <Link className="dropdown-item" to="/admin">
+                                                        Profile
+                                                    </Link>
+                                                </li>
+                                            )}
+                                            <li>
+                                                <button
+                                                    onClick={logout}
+                                                    className="dropdown-item border-0 bg-white"
+                                                >
+                                                    Logout
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </>
+                                ) : (
+                                    <button className="btn btn-primary h-80">
+                                        <NavLink
+                                            to="/login"
+                                            className="text-light text-capitalize text-decoration-none"
+                                        >
+                                            Login
+                                        </NavLink>
+                                    </button>
+                                )}
                             </li>
+
 
                         </ul>
 

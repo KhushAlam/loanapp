@@ -120,7 +120,6 @@ export default function Payment() {
             return;
         }
         try {
-            // 1) Create order on your backend
             const res = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}api/payments/create-order`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

@@ -50,20 +50,22 @@ paymentRouter.post("/create-order", async (req, res) => {
 // ==========================
 // 2️⃣ Verify Payment (after checkout)
 // ==========================
+
 paymentRouter.post("/verify", async (req, res) => {
   try {
-    console.log(id)
+    console.log(req.body);  
+
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       req.body;
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
+
     const expected = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(body)
       .digest("hex");
 
     if (expected === razorpay_signature) {
-      // ✅ Payment verified
       await Payment.findOneAndUpdate(
         { orderId: razorpay_order_id },
         {
@@ -74,7 +76,6 @@ paymentRouter.post("/verify", async (req, res) => {
       );
       return res.json({ success: true });
     } else {
-      // ❌ Signature mismatch
       await Payment.findOneAndUpdate(
         { orderId: razorpay_order_id },
         { status: "failed" }
@@ -86,6 +87,7 @@ paymentRouter.post("/verify", async (req, res) => {
     res.status(500).json({ success: false });
   }
 });
+
 
 // ==========================
 // 3️⃣ Webhook (for auto updates)
