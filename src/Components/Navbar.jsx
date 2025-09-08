@@ -86,9 +86,6 @@ export default function Navbar() {
                             <li className="nav-item me-3">
                                 <NavLink to="/contact" className="nav-link ">Contact US</NavLink>
                             </li>
-                            <li className="nav-item me-3">
-                                <NavLink to="/admin" className="nav-link ">Admin</NavLink>
-                            </li>
                             <li className="nav-item me-3 dropdown">
                                 {localStorage.getItem("login") === "true" ? (
                                     <>

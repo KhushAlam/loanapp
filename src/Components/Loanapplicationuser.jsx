@@ -39,7 +39,9 @@ export default function Loanapplicationuser() {
         aadharcard: "",
         pancard: "",
         status: "Submited",
-        date: new Date()
+        emi: "",
+        date: new Date(),
+        userid: localStorage.getItem("userid")
     })
 
     let [errormassege, seterrormassege] = useState({
@@ -70,7 +72,7 @@ export default function Loanapplicationuser() {
 
     function inputdata(e) {
         let name = e.target.name;
-        let value = e.target.files && e.target.files.length ? "loan/" + e.target.files[0].name : e.target.value;
+        let value = e.target.files && e.target.files.length ? e.target.files[0] : e.target.value;
 
         seterrormassege((old) => {
             return {
@@ -104,7 +106,13 @@ export default function Loanapplicationuser() {
                 })
                 return
             }
-            dispatch(Createloan({ ...data }));
+
+            data.emi = serviceStatedata.filter((x) => x.loantype === data.loantype ? x.installment : false);
+            const Fromdata = new FormData()
+            Object.keys(data).forEach((key) => {
+                Fromdata.append(key, data[key]);
+            })
+            dispatch(Createloan(Fromdata));
             navigate('/welcome')
         }
     }

@@ -57,18 +57,33 @@ export default function Repaymentstatus() {
                                         <td>{data.duration}</td>
                                     </tr>
                                     <tr>
+                                        <th></th>
                                     </tr>
                                 </tbody>
                             </table>
-
-                            <h4 className='btn btn-primary text-light text-center w-100 mt-5'>Repayment installment</h4>
-                            {
-                                data.installment.map((item)=>{
-                                    return <div>
-                                        {item.month}
-                                    </div>
-                                })
-                            }
+                            <div className="container-fluid">
+                                <h4 className='btn btn-primary w-100 text-light text-center'>Repayment Section </h4>
+                                <div className="row mt-3">
+                                    {data?.installment?.map((item) => (
+                                        <div key={item._id} className="col-md-3 mb-3">
+                                            <div className="card shadow-sm h-100 border-0 rounded-3">
+                                                <div className="card-body text-center">
+                                                    <h5 className="card-title fw-bold">Month {item.month}</h5>
+                                                    <p className="card-text mb-1">
+                                                        <strong>Due:</strong> {new Date(item.duedate).toLocaleDateString()}
+                                                    </p>
+                                                    <span
+                                                        className={`badge ${item.paid ? "bg-success" : "bg-warning text-dark"
+                                                            }`}
+                                                    >
+                                                        {item.paid ? "Paid" : "Pending"}
+                                                    </span><br />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

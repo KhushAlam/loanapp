@@ -79,7 +79,7 @@ export default function Loanapplication() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {loanStatedata.filter((x) => x.status === "Approved").map((item, index) => {
+                                    {loanStatedata.filter((x) => x.status === "Submited").map((item, index) => {
                                         return <tr key={index}>
                                             <td>{item._id}</td>
                                             <td>{item.name}</td>
@@ -90,7 +90,7 @@ export default function Loanapplication() {
                                             <td>{new Date(item.date).toLocaleString()}</td>
                                             <td><Link to={`/admin/loanapplication/show/${item._id}`}><button className='btn btn-primary'><i className='fa fa-eye text-light'></i></button></Link></td>
                                             <td><Link to={`/admin/loanapplication/update/${item._id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
-                                            <td><button className='btn btn-danger' onClick={() => { deleteapplication(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                            {localStorage.getItem("role") === "Super Admin" ? <td><button className='btn btn-danger' onClick={() => { deleteapplication(item._id) }}><i className='fa fa-trash text-light'></i></button></td>  : null}
                                         </tr>
                                     })}
                                 </tbody>

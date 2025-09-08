@@ -2,6 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Footer() {
+    function pushup() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
     return (
         <>
             <footer>
@@ -79,8 +86,8 @@ export default function Footer() {
                     </div>
                 </div>
             </footer>
-            <div id="back-top" >
-                 <i className="fas fa-level-up-alt text-light"></i>
+            <div id="back-top" onClick={pushup} >
+                <i className="fas fa-level-up-alt text-light"></i>
             </div>
         </>
     )

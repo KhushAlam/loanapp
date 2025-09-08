@@ -40,6 +40,7 @@ import Welcome from './Components/Welcome'
 import Profile from './Components/Profile'
 import Updateprofile from './Components/Updateprofile'
 import Repaymentstatus from './Components/Repaymentstatus'
+import Errorpage from "./Components/Errorpage";
 
 
 export default function App() {
@@ -54,60 +55,69 @@ export default function App() {
           <Route path='/testimonial' element={<Testimonialpage />} />
           <Route path='/newslatter' element={<Newslatterpage />} />
           <Route path='/team' element={<Teampage />} />
-          <Route path='/contact' element={<Contactuspage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Singnup />} />
           <Route path='/business' element={<Business />}></Route>
-          <Route path='/commercial' element={<Commercial/>}></Route>
+          <Route path='/commercial' element={<Commercial />}></Route>
           <Route path='/construction' element={<Construction />}></Route>
           <Route path='/personal' element={<Personal />}></Route>
-          <Route path='/loan/application' element={<Loanapplicationuser />}></Route>
-          <Route path='/welcome' element={<Welcome />}></Route>
-          <Route path='/profile' element={<Profile />}></Route>
-          <Route path='/update/:id' element={<Updateprofile/>}></Route>
-          
+          {localStorage.getItem("login") === "true" ? <>  <Route path='/welcome' element={<Welcome />}></Route>
+            <Route path='/contact' element={<Contactuspage />} />
+            <Route path='/profile' element={<Profile />}></Route>
+            <Route path='/update/:id' element={<Updateprofile />}></Route>
+            <Route path='/loan/application' element={<Loanapplicationuser />}></Route></> :
+            <>
+              <Route path='/*' element={<Errorpage />} />
+            </>
+          }
 
 
+          {localStorage.getItem("login") === "true" &&
+            localStorage.getItem("role") !== "User" ? (
+            <>
+              {/* Admin section */}
+              <Route path='/admin' element={<Adminpage />} />
 
-          {/* Admin section */}
-          <Route path='/admin' element={<Adminpage />} />
-          {/* Loans Applications */}
-          <Route path='/admin/loanapplication' element={<Loanapplication />} />
-          <Route path='/admin/loanapplication/create' element={<Loanapplicationcreate />} />
-          <Route path='/admin/loanapplication/update/:id' element={<Loanapplicationupdate />} />
-          <Route path='/admin/loanapplication/show/:id' element={<Show />} />
+              {/* Loans Applications */}
+              <Route path='/admin/loanapplication' element={<Loanapplication />} />
+              <Route path='/admin/loanapplication/create' element={<Loanapplicationcreate />} />
+              <Route path='/admin/loanapplication/update/:id' element={<Loanapplicationupdate />} />
+              <Route path='/admin/loanapplication/show/:id' element={<Show />} />
 
-          {/* Loans Services */}
-          <Route path='/admin/services' element={<Services />} />
-          <Route path='/admin/services/create' element={<Servicescreate />} />
-          <Route path='/admin/services/update/:id' element={<Servicesupdate />} />
+              {/* Loans Services */}
+              <Route path='/admin/services' element={<Services />} />
+              <Route path='/admin/services/create' element={<Servicescreate />} />
+              <Route path='/admin/services/update/:id' element={<Servicesupdate />} />
 
-          {/* Payment Section */}
-          <Route path='/admin/payment' element={<Payment />} />
+              {/* Payment Section */}
+              <Route path='/admin/payment' element={<Payment />} />
 
-          {/* Testimonial */}
-          <Route path='/admin/testimonial' element={<Testimonial />} />
-          <Route path='/admin/testimonial/create' element={<Testimonialcreate />} />
-          <Route path='/admin/testimonial/update/:id' element={<Testimonialupdate />} />
+              {/* Testimonial */}
+              <Route path='/admin/testimonial' element={<Testimonial />} />
+              <Route path='/admin/testimonial/create' element={<Testimonialcreate />} />
+              <Route path='/admin/testimonial/update/:id' element={<Testimonialupdate />} />
 
-          {/* Team */}
+              {/* Team */}
+              <Route path='/admin/team' element={<Team />} />
+              <Route path='/admin/team/create' element={<Teamcreate />} />
+              <Route path='/admin/team/update/:id' element={<Teamupdate />} />
 
-          <Route path='/admin/team' element={<Team />} />
-          <Route path='/admin/team/create' element={<Teamcreate />} />
-          <Route path='/admin/team/update/:id' element={<Teamupdate />} />
+              {/* Users */}
+              <Route path='/admin/user' element={<User />} />
+              <Route path='/admin/user/create' element={<Usercreate />} />
+              <Route path='/admin/user/update/:id' element={<Userupdate />} />
 
-          {/* Users */}
+              {/* Contactus */}
+              <Route path='/admin/contactus' element={<Contractus />} />
 
-          <Route path='/admin/user' element={<User />} />
-          <Route path='/admin/user/create' element={<Usercreate />} />
-          <Route path='/admin/user/update/:id' element={<Userupdate />} />
+              {/* Repayment */}
+              <Route path='/admin/repayment' element={<Repayment />} />
+              <Route path='/admin/repayment/status/:id' element={<Repaymentstatus />} />
+            </>
+          ) : (
+            <Route path='/*' element={<Errorpage />} />
+          )}
 
-          {/* Contactus */}
-          <Route path='/admin/contactus' element={<Contractus />} />
-
-          {/* Repayment */}
-          <Route path='/admin/repayment' element={<Repayment />} />
-          <Route path='/admin/repayment/status/:id' element={<Repaymentstatus/>}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>

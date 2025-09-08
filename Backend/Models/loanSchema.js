@@ -68,6 +68,10 @@ const loanSchema = new mongoose.Schema({
         required: [true, "Mobile number is required"],
         match: [/^\d{10}$/, "Mobile number must be 10 digits"]
     },
+    emi: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: [true, "Email is required"],
@@ -138,6 +142,10 @@ const loanSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
     installment: [installmentSchema]
 }, {

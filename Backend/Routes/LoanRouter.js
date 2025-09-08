@@ -68,7 +68,6 @@ loanRouter.post("/create", upload.any(), async (req, res) => {
     }
 });
 
-
 loanRouter.get("/get", async (req, res) => {
     try {
         const data = await Loan.find();

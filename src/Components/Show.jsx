@@ -64,7 +64,7 @@ export default function Show() {
                                     <tr>
                                         <th>Photo</th>
                                         <td>
-                                            <Link to={`${data.pic}`} target='_blank' rel="noopener noreferrer">
+                                            <Link to={`${process.env.REACT_APP_BACKEND_SERVER}${data.pic}`} target='_blank' rel="noopener noreferrer">
                                                 <img src={`${data.pic}`} height={100} width={150} />
                                             </Link>
                                         </td>
