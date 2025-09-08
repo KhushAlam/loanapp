@@ -52,7 +52,7 @@ export default function Services() {
                                         <th>Installment</th>
                                         <th>Active</th>
                                         <th>edit</th>
-                                        <th>Delete</th>
+                                        {localStorage.getItem("role") === "Super Admin" ? <><th>Delete</th></> : null}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,7 +65,8 @@ export default function Services() {
                                             <td>{item.installment}</td>
                                             <td>{item.active === true ? "Yes" : "No"}</td>
                                             <td><Link to={`/admin/services/update/${item._id}`}><button className='btn btn-primary mt-1'><i className='fa fa-edit text-light'></i></button></Link></td>
-                                            <td><button className='btn btn-danger mt-1' onClick={() => { deleteservice(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                            {localStorage.getItem("role") === "Super Admin" ? <>                                            <td><button className='btn btn-danger mt-1' onClick={() => { deleteservice(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                            </> : null}
                                         </tr>
                                     })}
                                 </tbody>

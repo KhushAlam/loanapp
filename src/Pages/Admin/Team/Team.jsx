@@ -46,21 +46,22 @@ export default function Team() {
                                         <th>Work</th>
                                         <th>Pic</th>
                                         <th>Edit</th>
-                                        <th>Delete</th>
+                                        {localStorage.getItem("role") === "Super Admin" ? <><th>Delete</th></> : null}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
                                         data.map((item, index) => {
                                             return <tr key={index}>
-                                                <td>{item._id}</td>
+                                                <td>{item._id?.slice(0,4)}</td>
                                                 <td>{item.name}</td>
                                                 <td>{item.work}</td>
                                                 <td><Link to={`${item.pic}`} target='_blank'>
                                                     <img src={`${item.pic}`} height={80} width={80} />
                                                 </Link></td>
                                                 <td><Link to={`/admin/team/update/${item._id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
-                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                                {localStorage.getItem("role") === "Super Admin" ? <>                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                                </> : null}
                                             </tr>
                                         })
                                     }

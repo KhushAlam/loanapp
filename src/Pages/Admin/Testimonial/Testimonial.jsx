@@ -24,9 +24,9 @@ export default function Testimonial() {
     }, [])
 
     useEffect(() => {
-        if(Array.isArray(testimonialStatedata)){
+        if (Array.isArray(testimonialStatedata)) {
             setdata(testimonialStatedata)
-        }else{
+        } else {
             setdata([]);
         }
     }, [testimonialStatedata])
@@ -50,21 +50,22 @@ export default function Testimonial() {
                                         <th>Pic</th>
                                         <th>Discription</th>
                                         <th>Edit</th>
-                                        <th>Delete</th>
+                                        {localStorage.getItem("role") === "Super Admin" ? <><th>Delete</th></> : null}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
                                         data.map((item, index) => {
                                             return <tr key={index}>
-                                                <td>{item._id}</td>
+                                                <td>{item._id?.slice(0, 4)}</td>
                                                 <td>{item.name}</td>
                                                 <td><Link to={`${item.pic}`} target='_blank'>
                                                     <img src={`${item.pic}`} height={80} width={80} />
                                                 </Link></td>
                                                 <td width={400} height={50}><div className='overflow-scroll overflow-x-hidden h-100 w-100'>{item.description}</div></td>
                                                 <td><Link to={`/admin/testimonial/update/${item._id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
-                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                                {localStorage.getItem("role") === "Super Admin" ? <>                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                                </> : null}
                                             </tr>
                                         })
                                     }

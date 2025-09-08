@@ -199,13 +199,13 @@ export default function Payment() {
                                         <th>Date</th>
                                         <th>Status</th>
                                         <th>Pay Loan</th>
-                                        <th>Delete</th>
+                                        {localStorage.getItem("role") === "Super Admin" ? <><th>Delete</th></> : null}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {loanStatedata.filter(x => x.status === "Approved").map((item, index) => {
                                         return <tr key={index}>
-                                            <td>{item.id}</td>
+                                            <td>{item._id?.slice(0, 4)}</td>
                                             <td>{item.name}</td>
                                             <td>{item.mobile}</td>
                                             <td>{item.aadhar}</td>
@@ -213,7 +213,8 @@ export default function Payment() {
                                             <td>{new Date(item.date).toLocaleString()}</td>
                                             <td>{item.status}</td>
                                             <td><button className='btn btn-primary' onClick={() => { handlePayment(item._id, item.amount) }} disabled={loading}>{loading ? "Processing..." : `Pay ₹${item.amount}`}</button></td>
-                                            <td><button className='btn btn-danger' onClick={() => { rejectloan(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                            {localStorage.getItem("role") === "Super Admin" ? <>                                            <td><button className='btn btn-danger' onClick={() => { rejectloan(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                            </> : null}
                                         </tr>
 
                                     })}

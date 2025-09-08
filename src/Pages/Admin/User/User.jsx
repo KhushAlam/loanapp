@@ -47,7 +47,7 @@ export default function User() {
                                         <th>Role</th>
                                         <th>Active</th>
                                         <th>Edit</th>
-                                        <th>Delete</th>
+                                        {localStorage.getItem("role") === "Super Admin" ? <><th>Delete</th></> : null}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,9 +58,10 @@ export default function User() {
                                                 <td>{item.email}</td>
                                                 <td>{item.username}</td>
                                                 <td>{item.role}</td>
-                                                <td>{item.active===true?"Yes":"NO"}</td>
+                                                <td>{item.active === true ? "Yes" : "NO"}</td>
                                                 <td><Link to={`/admin/user/update/${item._id}`}><button className='btn btn-primary'><i className='fa fa-edit text-light'></i></button></Link></td>
-                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                                {localStorage.getItem("role") === "Super Admin" ? <>                                                <td><button className='btn btn-danger' onClick={() => { deletetestimonial(item._id) }}><i className='fa fa-trash text-light'></i></button></td>
+                                                </> : null}
                                             </tr>
                                         })
                                     }
