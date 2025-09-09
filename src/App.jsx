@@ -41,6 +41,7 @@ import Profile from './Components/Profile'
 import Updateprofile from './Components/Updateprofile'
 import Repaymentstatus from './Components/Repaymentstatus'
 import Errorpage from "./Components/Errorpage";
+import Forgetpassword from './Components/Forgetpassword'
 
 
 export default function App() {
@@ -56,6 +57,7 @@ export default function App() {
           <Route path='/newslatter' element={<Newslatterpage />} />
           <Route path='/team' element={<Teampage />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/forgetpassword' element={<Forgetpassword />} />
           <Route path='/signup' element={<Singnup />} />
           <Route path='/business' element={<Business />}></Route>
           <Route path='/commercial' element={<Commercial />}></Route>

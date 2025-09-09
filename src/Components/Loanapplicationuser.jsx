@@ -107,7 +107,8 @@ export default function Loanapplicationuser() {
                 return
             }
 
-            data.emi = serviceStatedata.filter((x) => x.loantype === data.loantype ? x.installment : false);
+            let item1 = serviceStatedata.find((x) => x.loantype === data.loantype && x.duration === data.duration);
+            data.pic = item1.installment
             const Fromdata = new FormData()
             Object.keys(data).forEach((key) => {
                 Fromdata.append(key, data[key]);

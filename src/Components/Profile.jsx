@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import { Getloan } from "../Redux/ActionCreator/Loanactioncreator"
+import { Getloan, Updateloan } from "../Redux/ActionCreator/Loanactioncreator"
 import { useDispatch, useSelector } from 'react-redux';
+import Rezerpay from "../Components/Rezerpay"
+
 
 export default function Profile({ title }) {
 
@@ -9,7 +11,10 @@ export default function Profile({ title }) {
     let loanStatedata = useSelector(state => state.loanStatedata);
     let [data, setdata] = useState([]);
     let [loandata, setloandata] = useState([]);
+    let [loading, setLoading] = useState(false)
+    let notes = {};
 
+    function payloan(id) { }
     useEffect(() => {
         (async () => {
             let responce = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}user/get/${localStorage.getItem("userid")}`, {
@@ -32,6 +37,71 @@ export default function Profile({ title }) {
             setloandata(loanStatedata.find((x) => x.userid === localStorage.getItem("userid")))
         }
     }, [loanStatedata])
+
+    const handlePayment = async (id, amountInRupees) => {
+        setLoading(true);
+        const ok = await Rezerpay();
+        if (!ok) {
+            alert("Razorpay SDK load failed. Check internet.");
+            setLoading(false);
+            return;
+        }
+        try {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}api/payments/create-order`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amountInRupees, notes })
+            });
+            const order = await res.json();
+            if (!order || !order.id) throw new Error("Order creation failed");
+
+            // 2) Open Razorpay Checkout
+            const options = {
+                key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+                amount: order.amount,
+                currency: order.currency,
+                name: "Loan application",
+                description: "Loan Payment",
+                image: "/logo192.png",
+                order_id: order.id,
+                prefill: { name: "", email: "", contact: "" },
+                notes: order.notes || {},
+                handler: async function (response) {
+                    const verifyRes = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}api/payments/verify`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(response)
+                    });
+                    const verifyJson = await verifyRes.json();
+                    if (verifyJson.success) {
+                        payloan(id);
+                    } else {
+                        alert("Payment verification failed ❌");
+                    }
+                },
+                method: {
+                    netbanking: true,
+                    card: true,
+                    upi: true,
+                    wallet: true
+                },
+                modal: { ondismiss: function () { } }
+            };
+
+            const rzp = new window.Razorpay(options);
+            rzp.on("payment.failed", function (resp) {
+                console.error("Payment failed:", resp.error);
+                alert("Payment failed");
+            });
+            rzp.open();
+
+        } catch (err) {
+            console.error(err);
+            alert("Payment start failed");
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
         <>
             <h4 className='btn btn-primary text-ligth text-center w-100 mt-2'>{title}</h4>
@@ -141,8 +211,8 @@ export default function Profile({ title }) {
                                                     >
                                                         {item.paid ? "Paid" : "Pending"}
                                                     </span><br />
-                                                    {item.paid ? null : <>                                                    <button className='btn btn-primary text-light mt-2'>Pay</button>
-                                                    </>}
+                                                    {item.paid ? null : <><button className='btn btn-primary mt-1' onClick={() => { handlePayment(item._id, 488) }} disabled={loading}>{loading ? "Processing..." : `Pay ₹${488}`}</button></>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
