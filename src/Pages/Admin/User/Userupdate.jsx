@@ -79,8 +79,8 @@ export default function Userupdate() {
   }, [])
   return (
     <>
+      <Breadcrum title="Users Create Page" />
       <div className="container-fluid">
-        <Breadcrum title="Users Create Page" />
         <div className="row mt-3">
           <div className="col-md-3">
             <Sidebar />

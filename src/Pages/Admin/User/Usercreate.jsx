@@ -87,8 +87,8 @@ export default function Usercreate() {
   }, [])
   return (
     <>
+      <Breadcrum title="User Page" />
       <div className="container-fluid">
-        <Breadcrum title="User Page" />
         <div className="row mt-3">
           <div className="col-md-3">
             <Sidebar />

@@ -150,6 +150,44 @@ loanRouter.put("/update/:id", upload.any(), async (req, res) => {
     }
 });
 
+// PUT => Update Installment Status
+loanRouter.put("/:loanId/installment/:installmentId", upload.none(), async (req, res) => {
+    try {
+        const { loanId, installmentId } = req.params;
+
+        // Loan find karo
+        const loan = await Loan.findById(loanId);
+        if (!loan) {
+            return res.status(404).json({ success: false, message: "Loan not found" });
+        }
+
+        // Installment find karo
+        const installment = loan.installment.id(installmentId);
+        if (!installment) {
+            return res.status(404).json({ success: false, message: "Installment not found" });
+        }
+
+        // Update installment
+        if (req.body.paid !== undefined) {
+            installment.paid = req.body.paid; // true/false
+        }
+        if (req.body.duedate) {
+            installment.duedate = req.body.duedate;
+        }
+        if (req.body.amount) {
+            installment.amount = req.body.amount;
+        }
+
+        // Save loan
+        await loan.save();
+
+        res.json({ success: true, message: "Installment updated", loan });
+    } catch (err) {
+        console.error("Update Installment Error:", err);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+});
+
 
 loanRouter.delete("/delete/:id", async (req, res) => {
     try {

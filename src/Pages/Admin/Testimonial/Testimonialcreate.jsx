@@ -80,8 +80,8 @@ export default function Testimonialcreate() {
   }, [])
   return (
     <>
+      <Breadcrum title="Testimonial Page" />
       <div className="container-fluid">
-        <Breadcrum title="Testimonial Page" />
         <div className="row mt-3">
           <div className="col-md-3">
             <Sidebar />

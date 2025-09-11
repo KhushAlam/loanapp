@@ -32,8 +32,8 @@ export default function Contractus() {
 
     return (
         <>
+            <Breadcrum title="Contractus Page" />
             <div className="container-fluid">
-                <Breadcrum title="Contractus Page" />
                 <div className="row mt-3">
                     <div className="col-md-3">
                         <Sidebar />

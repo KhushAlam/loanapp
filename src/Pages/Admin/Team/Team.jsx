@@ -29,8 +29,8 @@ export default function Team() {
 
     return (
         <>
+            <Breadcrum title="Testimonial Page" />
             <div className="container-fluid">
-                <Breadcrum title="Testimonial Page" />
                 <div className="row mt-3">
                     <div className="col-md-3">
                         <Sidebar />
@@ -53,7 +53,7 @@ export default function Team() {
                                     {
                                         data.map((item, index) => {
                                             return <tr key={index}>
-                                                <td>{item._id?.slice(0,4)}</td>
+                                                <td>{item._id?.slice(0, 4)}</td>
                                                 <td>{item.name}</td>
                                                 <td>{item.work}</td>
                                                 <td><Link to={`${item.pic}`} target='_blank'>

@@ -76,6 +76,23 @@ userRouter.post("/logout", async (req, res) => {
     }
 });
 
+userRouter.patch("/forget", upload.none(), async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        const existuser = await User.findOne({ username });
+        if (!existuser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        existuser.password = password;
+        await existuser.save();
+
+        return res.status(200).json({ message: "Password changed successfully" });
+    } catch (err) {
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 
 
 userRouter.post("/login", async (req, res) => {

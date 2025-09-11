@@ -52,7 +52,6 @@ export default function Teamcreate() {
     let error = Object.values(errormessage).find(x => x !== "");
     if (error) {
       setshow(true);
-      console.log(error)
     } else {
       let item = teamStatedata.find(x => x.name === data.name)
       if (item) {
@@ -80,8 +79,8 @@ export default function Teamcreate() {
   }, [teamStatedata])
   return (
     <>
+      <Breadcrum title="Team Page" />
       <div className="container-fluid">
-        <Breadcrum title="Team Page" />
         <div className="row mt-3">
           <div className="col-md-3">
             <Sidebar />

@@ -29,8 +29,8 @@ export default function User() {
 
     return (
         <>
+            <Breadcrum title="Users Page" />
             <div className="container-fluid">
-                <Breadcrum title="Users Page" />
                 <div className="row mt-3">
                     <div className="col-md-3">
                         <Sidebar />
